@@ -101,6 +101,7 @@ const Reviews = ({ reviews, bookId }: IProps) => {
               readonly
             />
             <p className="text-white">{review?.comment}</p>
+            <p className="text-white">{review?.comment}</p>
           </div>
         ))}
       </div>
