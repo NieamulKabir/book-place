@@ -1,5 +1,10 @@
 import { ReactNode } from "react";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
 
+export interface IProps {
+  children: ReactNode;
+}
 export interface IReviews {
   _id?: string;
   user_id?: string;
@@ -7,9 +12,7 @@ export interface IReviews {
   rating?: number;
   comment: string;
 }
-export interface IProps {
-  children: ReactNode;
-}
+
 export interface IBook {
   _id?: string;
   title: string;
@@ -21,13 +24,7 @@ export interface IBook {
   price?: number;
   rating?: number;
   createdBy: string;
-  reviews?:
-    | {
-        reviewer: string;
-        rating: number;
-        comment: string;
-      }[]
-    | undefined;
+  reviews?: IReviews[] | undefined;
 }
 export interface ISingleBook {
   book: IBook;
@@ -53,25 +50,39 @@ export interface IUser {
   completedBooks?: IBook[] | undefined;
   currentlyReading?: IBook[] | undefined;
 }
+export interface IAllResponse<T> {
+  status: boolean;
+  data: T[] | undefined;
+}
+export interface IResponse<T> {
+  data: T | undefined;
+}
+export interface ICreateResponse {
+  status: boolean;
+  data: object;
+}
+export interface IError  {
+  error: FetchBaseQueryError | SerializedError | undefined
+}
 
-export interface IWishlist {
-  _id: string;
-  book?: ISingleBook;
-  user?: IUser;
-}
-export interface IReadingList {
-  _id: string;
-  book?: ISingleBook;
-  user?: IUser;
-}
-export interface ICompleteList {
-  _id: string;
-  book?: ISingleBook;
-  user?: IUser;
-}
-export interface IReview {
-  _id?: string;
-  reviewer?: string;
-  rating?: number;
-  comment?: string;
-}
+// export interface IWishlist {
+//   _id: string;
+//   book?: ISingleBook;
+//   user?: IUser;
+// }
+// export interface IReadingList {
+//   _id: string;
+//   book?: ISingleBook;
+//   user?: IUser;
+// }
+// export interface ICompleteList {
+//   _id: string;
+//   book?: ISingleBook;
+//   user?: IUser;
+// }
+// export interface IReview {
+//   _id?: string;
+//   reviewer?: string;
+//   rating?: number;
+//   comment?: string;
+// }

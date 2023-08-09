@@ -25,6 +25,7 @@ const BookDetails = () => {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { data } = useGetUserQuery(user?.email);
+
   const { data: wishlist } = useGetWishListQuery(data?.data?._id, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,

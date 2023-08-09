@@ -2,8 +2,9 @@ import { useState, FormEvent, useEffect } from "react";
 import { Rating } from "react-simple-star-rating";
 import { IReviews } from "../../types/globalTypes";
 import { useAppSelector } from "../../redux/hook";
-import { useGetUserByEmailQuery } from "../../redux/features/users/userApi";
+
 import { useUpdateBookMutation } from "../../redux/features/books/booksApi";
+import {  useGetUserQuery } from "../../redux/features/users/userApi";
 
 interface IProps {
   reviews: IReviews[];
@@ -11,10 +12,12 @@ interface IProps {
 }
 const Reviews = ({ reviews, bookId }: IProps) => {
   const { user } = useAppSelector((state) => state.user);
-  const { data: getUser } = useGetUserByEmailQuery(user.email!);
+  const { data: getUser } = useGetUserQuery(user.!);
   const [updateBook, { isSuccess }] = useUpdateBookMutation();
   const [rating, setRating] = useState(0);
   const [error, setError] = useState("");
+  // console.log(user);
+  // console.log(getUser?.data);
   const handleRating = (rate: number) => {
     setRating(rate);
 
@@ -57,42 +60,48 @@ const Reviews = ({ reviews, bookId }: IProps) => {
     <div>
       <div>{reviews.length > 0 ? "" : <p className="">No reviews yet</p>}</div>
       {user?.email && (
-        <form onSubmit={handleSubmit}>
-          <input
-            required
-            type="text"
-            name="comment"
-            placeholder="Write Your comment"
-            className="input input-bordered input-primary w-full max-w-xs"
-          />
-          <Rating
-            initialValue={rating}
-            size={28}
-            allowFraction
-            onClick={handleRating}
-            showTooltip
-            tooltipArray={[
-              "Terrible",
-              "Terrible+",
-              "Bad",
-              "Bad+",
-              "Average",
-              "Average+",
-              "Great",
-              "Great+",
-              "Awesome",
-              "Awesome+",
-            ]}
-            transition
-          />
-          <p className="ms-2 text-danger"> {error && error}</p>
-          <button className="text-white" type="submit">Submit</button>
-        </form>
+        <div className="grid">
+          <form className="grid grid-cols" onSubmit={handleSubmit}>
+            <input
+              required
+              type="text"
+              name="comment"
+              placeholder="Write Your comment"
+              className="input input-bordered input-primary w-full max-w-xs"
+            />
+
+            <Rating
+              initialValue={rating}
+              size={28}
+              allowFraction
+              onClick={handleRating}
+              showTooltip
+              tooltipArray={[
+                "Terrible",
+                "Terrible+",
+                "Bad",
+                "Bad+",
+                "Average",
+                "Average+",
+                "Great",
+                "Great+",
+                "Awesome",
+                "Awesome+",
+              ]}
+              transition
+            />
+
+            <p className="ms-2 text-danger"> {error && error}</p>
+            <button className="text-white" type="submit">
+              Submit
+            </button>
+          </form>
+        </div>
       )}
 
-      <div className="text-white pb-20">
+      <div className="text-white pb-20 flex">
         {reviews?.map((review) => (
-          <div>
+          <div className="grid grid-cols-1">
             <h1>{review?.user_id}</h1>
             <Rating
               allowFraction
