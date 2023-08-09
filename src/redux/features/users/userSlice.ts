@@ -8,11 +8,13 @@ import { auth } from "../../../lib/firebase";
 
 interface IUserState {
   user: {
+    id: string | null;
     email: string | null;
   };
   isLoading: boolean;
   isError: boolean;
   error: string | null;
+  isSuccess: boolean;
 }
 
 interface ICredential {
@@ -21,11 +23,13 @@ interface ICredential {
 }
 const initialState: IUserState = {
   user: {
+    id: null,
     email: null,
   },
   isLoading: false,
   isError: false,
   error: null,
+  isSuccess: false,
 };
 
 export const createUser = createAsyncThunk(
@@ -41,7 +45,6 @@ export const loginUser = createAsyncThunk(
   "user/loginUser",
   async ({ email, password }: ICredential) => {
     const data = await signInWithEmailAndPassword(auth, email, password);
-    console.log(data);
     return data.user.email;
   }
 );
@@ -53,8 +56,22 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<string | null>) => {
       state.user.email = action.payload;
     },
+    setUserId: (state, action: PayloadAction<string | null>) => {
+      state.user.id = action.payload;
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
+    },
+    logout: (state) => {
+      state.user.email = null;
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = false;
+      state.error = null;
+    },
+    errorHandle: (state) => {
+      state.isError = false;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -96,5 +113,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, setLoading } = userSlice.actions;
+export const { setUser, setLoading, logout, errorHandle, setUserId } =
+  userSlice.actions;
 export default userSlice.reducer;
