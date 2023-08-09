@@ -13,8 +13,8 @@ const userApi = api.injectEndpoints({
     getUser: builder.query({
       query: (id) => `/users/${id}`,
     }),
-    getUserByEmail: builder.query({
-      query: (email) => `/users/${email}`,
+    getUserByEmail: builder.query<IResponse<IUser>, string>({
+      query: (email) => `/user/${email}`,
     }),
   }),
 });

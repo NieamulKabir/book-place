@@ -1,4 +1,10 @@
 import { ReactNode } from "react";
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+
+export interface IProps {
+  children: ReactNode;
+}
 
 export interface IReviews {
   _id?: string;
@@ -7,9 +13,7 @@ export interface IReviews {
   rating?: number;
   comment: string;
 }
-export interface IProps {
-  children: ReactNode;
-}
+
 export interface IBook {
   _id?: string;
   title: string;
@@ -21,13 +25,7 @@ export interface IBook {
   price?: number;
   rating?: number;
   createdBy: string;
-  reviews?:
-    | {
-        reviewer: string;
-        rating: number;
-        comment: string;
-      }[]
-    | undefined;
+  reviews?: IReviews[] | undefined
 }
 export interface ISingleBook {
   book: IBook;
@@ -54,24 +52,41 @@ export interface IUser {
   currentlyReading?: IBook[] | undefined;
 }
 
-export interface IWishlist {
-  _id: string;
-  book?: ISingleBook;
-  user?: IUser;
+export interface IAllResponse<T> {
+  status: boolean;
+  data: T[] | undefined;
 }
-export interface IReadingList {
-  _id: string;
-  book?: ISingleBook;
-  user?: IUser;
+export interface IResponse<T> {
+//   status: boolean;
+  data: T | undefined;
 }
-export interface ICompleteList {
-  _id: string;
-  book?: ISingleBook;
-  user?: IUser;
+export interface ICreateResponse {
+  status: boolean;
+  data: object;
 }
-export interface IReview {
-  _id?: string;
-  reviewer?: string;
-  rating?: number;
-  comment?: string;
+
+export interface IError  {
+  error: FetchBaseQueryError | SerializedError | undefined
 }
+
+// export interface IWishlist {
+//   _id: string;
+//   book?: ISingleBook;
+//   user?: IUser;
+// }
+// export interface IReadingList {
+//   _id: string;
+//   book?: ISingleBook;
+//   user?: IUser;
+// }
+// export interface ICompleteList {
+//   _id: string;
+//   book?: ISingleBook;
+//   user?: IUser;
+// }
+// export interface IReview {
+//   _id?: string;
+//   reviewer?: string;
+//   rating?: number;
+//   comment?: string;
+// }

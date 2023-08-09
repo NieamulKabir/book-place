@@ -20,6 +20,8 @@ const Reviews = ({ reviews, bookId }: IProps) => {
 
     // other logic
   };
+
+  console.log(getUser);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (rating <= 0) {
