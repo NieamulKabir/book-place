@@ -1,4 +1,4 @@
-import { IUser } from "../../../types/globalTypes";
+import { IResponse, IUser } from "../../../types/globalTypes";
 import { api } from "../../api/apiSlice";
 
 const userApi = api.injectEndpoints({
@@ -10,8 +10,8 @@ const userApi = api.injectEndpoints({
         body: data,
       }),
     }),
-    getUser: builder.query({
-      query: (id) => `/users/${id}`,
+    getUser: builder.query<IResponse<IUser>, string>({
+      query: (id) => `/user/${id}`,
     }),
     getUserByEmail: builder.query<IResponse<IUser>, string>({
       query: (email) => `/user/${email}`,

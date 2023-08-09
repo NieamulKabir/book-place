@@ -2,7 +2,7 @@ import { useState, FormEvent, useEffect } from "react";
 import { Rating } from "react-simple-star-rating";
 import { IReviews } from "../../types/globalTypes";
 import { useAppSelector } from "../../redux/hook";
-import { useGetUserByEmailQuery } from "../../redux/features/users/userApi";
+import {useGetUserQuery } from "../../redux/features/users/userApi";
 import { useUpdateBookMutation } from "../../redux/features/books/booksApi";
 
 interface IProps {
@@ -11,7 +11,7 @@ interface IProps {
 }
 const Reviews = ({ reviews, bookId }: IProps) => {
   const { user } = useAppSelector((state) => state.user);
-  const { data: getUser } = useGetUserByEmailQuery(user.email!);
+  const { data:getUser } = useGetUserQuery(user.id!);
   const [updateBook, { isSuccess }] = useUpdateBookMutation();
   const [rating, setRating] = useState(0);
   const [error, setError] = useState("");
@@ -21,7 +21,7 @@ const Reviews = ({ reviews, bookId }: IProps) => {
     // other logic
   };
 
-  console.log(getUser);
+  // console.log(getUser);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (rating <= 0) {
@@ -34,7 +34,7 @@ const Reviews = ({ reviews, bookId }: IProps) => {
       const comment = e.target as HTMLFormElement;
 
       const commentData = {
-        user_id: getUser?.data?.userName,
+        user_id: getUser?.data?._id,
         rating: rating,
         comment: commentText.comment.value,
       };
@@ -58,7 +58,7 @@ const Reviews = ({ reviews, bookId }: IProps) => {
   return (
     <div>
       <div>{reviews.length > 0 ? "" : <p className="">No reviews yet</p>}</div>
-      {user?.email && (
+      {user?.id && (
         <form onSubmit={handleSubmit}>
           <input
             required

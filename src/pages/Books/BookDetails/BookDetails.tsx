@@ -1,15 +1,10 @@
 import { useParams } from "react-router-dom";
-import { useGetBooksQuery, useSingleBookQuery } from "../../../redux/features/books/booksApi";
+import {
+  useSingleBookQuery,
+} from "../../../redux/features/books/booksApi";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
-import { toast } from "react-hot-toast";
-import {
-  useAddWishListMutation,
-  useGetWishListQuery,
-} from "../../../redux/features/wishList/wishListApi";
-import {
-  addToWishList,
- 
-} from "../../../redux/features/wishList/wishListSlice";
+// import { toast } from "react-hot-toast";
+
 import { useGetUserQuery } from "../../../redux/features/users/userApi";
 import Reviews from "../../Reviews/Reviews";
 
@@ -24,25 +19,24 @@ const BookDetails = () => {
 
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const { data } = useGetUserQuery(user?.email);
-  const { data: wishlist } = useGetWishListQuery(data?.data?._id, {
-    refetchOnMountOrArgChange: true,
-    pollingInterval: 30000,
-  });
- 
-  const reviews= book?.data?.reviews??[]
+  const { data: getUSer } = useGetUserQuery(user.id!);
+  // const { data: wishlist } = useGetWishListQuery(data?.data?._id, {
+  //   refetchOnMountOrArgChange: true,
+  //   pollingInterval: 30000,
+  // });
 
+  const reviews = book?.data?.reviews ?? [];
 
-  const [addWishList] = useAddWishListMutation();
+  // const [addWishList] = useAddWishListMutation();
 
-  const handleAddWishList = () => {
-    const payload = { userId: user?.email, bookId: book?.data?._id };
+  // const handleAddWishList = () => {
+  //   const payload = { userId: user?.email, bookId: book?.data?._id };
 
-    dispatch(addToWishList(book));
-    addWishList(payload);
-    toast.success("Added To Wishlist.");
-    // console.log(wishLists?.books);
-  };
+  //   dispatch(addToWishList(book));
+  //   addWishList(payload);
+  //   toast.success("Added To Wishlist.");
+  //   // console.log(wishLists?.books);
+  // };
   // const handleRemoveFromWishList = () => {
   //   wishLists?.books.forEach((list) => {
   //     if (list?.books?.data._id === book?.data?._id) {
@@ -123,7 +117,7 @@ const BookDetails = () => {
                 Here is Some Feature You can use and Enjoy it.
               </h1>
               <div className="text-2xl">
-                <button onClick={handleAddWishList}>
+                <button>
                   <p className="">
                     <i className="fa-solid fa-heart mr-3"></i>{" "}
                   </p>
@@ -143,7 +137,7 @@ const BookDetails = () => {
             </div>
           </div>
         </div>
-        <Reviews reviews={reviews} bookId={id!}/>
+        <Reviews reviews={reviews} bookId={id!} />
       </div>
     </>
   );
