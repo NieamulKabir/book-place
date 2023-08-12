@@ -1,11 +1,11 @@
-import { IBook, IReview } from "../../types/globalTypes";
+import { IBook,  IReviews } from "../../types/globalTypes";
 
 
 export default function ratingCount(book: IBook) {
   let totalRating = 0;
   let finalRating = 0;
 
-  book?.reviews?.forEach((review: IReview) => {
+  book?.reviews?.forEach((review: IReviews) => {
     totalRating = totalRating + (review?.rating ? review?.rating : 0);
   });
 

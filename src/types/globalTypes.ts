@@ -23,7 +23,7 @@ export interface IBook {
   publication_date: string;
   image?: string;
   price?: number;
-  rating?: number;
+  rating?: number |string;
   createdBy: string;
   reviews?: IReviews[] | undefined
 }

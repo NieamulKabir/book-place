@@ -1,6 +1,4 @@
-// import { IBook } from '@/types/globalTypes';
 
-// import ratingCount from '../helper/ratingCount';
 import { IBook } from "../../types/globalTypes";
 import CountRating from "./CountRating";
 

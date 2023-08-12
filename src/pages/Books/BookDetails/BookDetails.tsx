@@ -1,52 +1,28 @@
 import { useParams } from "react-router-dom";
-import {
-  useSingleBookQuery,
-} from "../../../redux/features/books/booksApi";
-import { useAppDispatch, useAppSelector } from "../../../redux/hook";
-// import { toast } from "react-hot-toast";
 
-import { useGetUserQuery } from "../../../redux/features/users/userApi";
 import Reviews from "../../Reviews/Reviews";
+import { useAppSelector } from "../../../redux/hook";
+import { useGetUserByEmailQuery } from "../../../redux/features/users/userApi";
+import { useSingleBookQuery } from "../../../redux/features/books/booksApi";
+import { IReviews } from "../../../types/globalTypes";
+import Rating from "../../../components/Rating/Rating";
+// import { IBook } from "../../../types/globalTypes";
 
-//  interface IWishlist {
-//   _id: string;
-//   book?: ISingleBook;
-//   user?: IUser;
+// interface IProps {
+//   book: IBook;
+//   relatedBooks: IBook[] | undefined;
 // }
 const BookDetails = () => {
   const { id } = useParams();
-  const { data: book } = useSingleBookQuery(id);
-
   const { user } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-  const { data: getUSer } = useGetUserQuery(user.id!);
-  // const { data: wishlist } = useGetWishListQuery(data?.data?._id, {
-  //   refetchOnMountOrArgChange: true,
-  //   pollingInterval: 30000,
-  // });
+  const { data: getUser } = useGetUserByEmailQuery(user.email!);
+  const { data: book, isLoading } = useSingleBookQuery(id!);
 
-  const reviews = book?.data?.reviews ?? [];
+  const reviews: IReviews[] | undefined = book?.data?.reviews ?? [];
 
-  // const [addWishList] = useAddWishListMutation();
-
-  // const handleAddWishList = () => {
-  //   const payload = { userId: user?.email, bookId: book?.data?._id };
-
-  //   dispatch(addToWishList(book));
-  //   addWishList(payload);
-  //   toast.success("Added To Wishlist.");
-  //   // console.log(wishLists?.books);
-  // };
-  // const handleRemoveFromWishList = () => {
-  //   wishLists?.books.forEach((list) => {
-  //     if (list?.books?.data._id === book?.data?._id) {
-  //       removeFromWishList(list?._id);
-  //       console.log(list?.id);
-
-  //       toast.error("Removed From Wishlist");
-  //     }
-  //   });
-
+  if (isLoading) {
+    <h1>Loading .....</h1>;
+  }
   return (
     <>
       <div>
@@ -103,11 +79,10 @@ const BookDetails = () => {
                   {book?.data?.publication_date}
                 </span>
               </h3>
-              <h3>
-                {" "}
-                {book?.data?.rating}{" "}
-                <i className="fa-solid fa-star text-green-400 font-bold"></i>
-              </h3>{" "}
+              <h3 >
+                <Rating key={book?.data?._id} book={book?.data} />
+
+              </h3>
               <h3>
                 {book?.data?.price}
                 <i className="fa-solid fa-dollar-sign text-green-400 font-bold"></i>
