@@ -4,8 +4,9 @@ import Reviews from "../../Reviews/Reviews";
 import { useAppSelector } from "../../../redux/hook";
 import { useGetUserByEmailQuery } from "../../../redux/features/users/userApi";
 import { useSingleBookQuery } from "../../../redux/features/books/booksApi";
-import { IReviews } from "../../../types/globalTypes";
+import { IBook, IReviews, IUser } from "../../../types/globalTypes";
 import Rating from "../../../components/Rating/Rating";
+import { updateWishList } from "../../../utils/customHooks";
 // import { IBook } from "../../../types/globalTypes";
 
 // interface IProps {
@@ -16,10 +17,16 @@ const BookDetails = () => {
   const { id } = useParams();
   const { user } = useAppSelector((state) => state.user);
   const { data: getUser } = useGetUserByEmailQuery(user.email!);
+  const userData:IUser= getUser?.data as IUser
+  const id= userData?._id
+  const userWishList= userData?.wishlist
   const { data: book, isLoading } = useSingleBookQuery(id!);
 
   const reviews: IReviews[] | undefined = book?.data?.reviews ?? [];
 
+  const addToWishList=(book:IBook)=>{
+    updateWishList(user?.email,book,userWishList,updateUser)
+  }
   if (isLoading) {
     <h1>Loading .....</h1>;
   }

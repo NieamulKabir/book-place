@@ -1,5 +1,9 @@
-import { IResponse, IUser } from "../../../types/globalTypes";
+import { IBook, IResponse, IUser } from "../../../types/globalTypes";
 import { api } from "../../api/apiSlice";
+export interface IUpdateUser {
+  id: string | undefined;
+  data: Partial<IUser> | Partial<IBook> | undefined;
+}
 
 const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,6 +20,13 @@ const userApi = api.injectEndpoints({
     getUserByEmail: builder.query<IResponse<IUser>, string>({
       query: (email) => `/user/${email}`,
     }),
+    updateUser:builder.mutation<object,IUpdateUser>({
+      query:({id,data})=>({
+        url:`/user/${id}`,
+        method:"PATCH",
+        body:data
+      })
+    })
   }),
 });
 
