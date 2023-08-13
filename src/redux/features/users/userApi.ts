@@ -20,14 +20,14 @@ const userApi = api.injectEndpoints({
     getUserByEmail: builder.query<IResponse<IUser>, string>({
       query: (email) => `/user/${email}`,
     }),
-    updateUser:builder.mutation<object,IUpdateUser>({
-      query:({id,data})=>({
-        url:`/user/${id}`,
-        method:"PATCH",
-        body:data
+    updateUser: builder.mutation<object, IUpdateUser>({
+      query: ({ id, data }) => ({
+        url: `/user/${id}`,
+        method: "PATCH",
+        body: data,
       })
-    })
+    }),
   }),
 });
 
-export const { useCreateNewUserMutation ,useGetUserQuery,useGetUserByEmailQuery} = userApi;
+export const { useCreateNewUserMutation ,useGetUserQuery,useGetUserByEmailQuery,useUpdateUserMutation} = userApi;

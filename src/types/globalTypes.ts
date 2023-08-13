@@ -23,24 +23,24 @@ export interface IBook {
   publication_date: string;
   image?: string;
   price?: number;
-  rating?: number |string;
+  // rating?: number |string;
   createdBy: string;
   reviews?: IReviews[] | undefined
 }
-export interface ISingleBook {
-  book: IBook;
-  _id: string;
-  title: string;
-  author: string;
-  genre: string;
-  publication_date: string;
-  image: string;
-  reviews?: {
-    reviewer: string;
-    rating: number;
-    comment: string;
-  }[];
-}
+// export interface ISingleBook {
+//   book: IBook;
+//   _id: string;
+//   title: string;
+//   author: string;
+//   genre: string;
+//   publication_date: string;
+//   image: string;
+//   reviews?: {
+//     reviewer: string;
+//     rating: number;
+//     comment: string;
+//   }[];
+// }
 
 export interface IUser {
   _id?: string;

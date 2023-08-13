@@ -11,7 +11,7 @@ const bookApi = api.injectEndpoints({
     getBooks: builder.query<IAllResponse<IBook>, void>({
       query: () => "/books",
     }),
-    singleBook: builder.query<IResponse<IBook>, string>({
+    singleBook: builder.query({
       query: (id) => `/book/${id}`,
     }),
 

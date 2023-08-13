@@ -1,12 +1,16 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Reviews from "../../Reviews/Reviews";
 import { useAppSelector } from "../../../redux/hook";
-import { useGetUserByEmailQuery } from "../../../redux/features/users/userApi";
+import {
+  useGetUserByEmailQuery,
+  useUpdateUserMutation,
+} from "../../../redux/features/users/userApi";
 import { useSingleBookQuery } from "../../../redux/features/books/booksApi";
 import { IBook, IReviews, IUser } from "../../../types/globalTypes";
 import Rating from "../../../components/Rating/Rating";
-import { updateWishList } from "../../../utils/customHooks";
+import { updateCompletedBooks, updateWishlist } from "../../../utils/customHooks";
+// import { updateWishList } from "../../../utils/customHooks";
 // import { IBook } from "../../../types/globalTypes";
 
 // interface IProps {
@@ -15,18 +19,24 @@ import { updateWishList } from "../../../utils/customHooks";
 // }
 const BookDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [updateUser] = useUpdateUserMutation();
   const { user } = useAppSelector((state) => state.user);
   const { data: getUser } = useGetUserByEmailQuery(user.email!);
-  const userData:IUser= getUser?.data as IUser
-  const id= userData?._id
-  const userWishList= userData?.wishlist
-  const { data: book, isLoading } = useSingleBookQuery(id!);
+  const userData: IUser = getUser?.data as IUser;
+  
+  const userWishList = userData?.wishlist;
 
-  const reviews: IReviews[] | undefined = book?.data?.reviews ?? [];
+  const { data: bookData, isLoading } = useSingleBookQuery(id!);
+  // const book: IBook = bookData?.data as IBook;
 
-  const addToWishList=(book:IBook)=>{
-    updateWishList(user?.email,book,userWishList,updateUser)
-  }
+  const reviews: IReviews[] = bookData?.data?.reviews ?? [];
+
+  const addToWishList = (book: IBook) => {
+    updateWishlist(user?.email, book, userWishList, updateUser);
+  };
+
   if (isLoading) {
     <h1>Loading .....</h1>;
   }
@@ -40,19 +50,19 @@ const BookDetails = () => {
             <figure className="md:w-[40%]">
               <img
                 className="pt-6 md:py-6 md:pl-6 "
-                src={book?.data?.image}
+                src={bookData?.data?.image}
                 alt="Album"
               />
             </figure>
             <div className="card-body md:w-[60%]">
               <h2 className="text-2xl lg:text-4xl font-bold">
-                {book?.data?.title}
+                {bookData?.data?.title}
               </h2>
               <h3 className="text-sm md:ml-8 -mt-2">
                 <span className="text-green-400 font-bold">
                   <i className="fa-solid fa-feather"></i> By -
                 </span>{" "}
-                {book?.data?.author}
+                {bookData?.data?.author}
               </h3>
               <hr />
               <h3 className="text-gray-400">
@@ -75,7 +85,7 @@ const BookDetails = () => {
                 <i className="fa-solid fa-circle-arrow-right text-green-400 font-bold"></i>{" "}
                 Genre :{" "}
                 <span className="text-green-400 font-bold">
-                  {book?.data?.genre}
+                  {bookData?.data?.genre}
                 </span>
               </h3>
               <h3 className="">
@@ -83,15 +93,14 @@ const BookDetails = () => {
                 <i className="fa-solid fa-circle-arrow-right text-green-400 font-bold"></i>{" "}
                 Publication On :{" "}
                 <span className="text-green-400 font-bold">
-                  {book?.data?.publication_date}
+                  {bookData?.data?.publication_date}
                 </span>
               </h3>
-              <h3 >
-                <Rating key={book?.data?._id} book={book?.data} />
-
+              <h3>
+                <Rating key={bookData?.data?._id} book={bookData?.data} />
               </h3>
               <h3>
-                {book?.data?.price}
+                {bookData?.data?.price}
                 <i className="fa-solid fa-dollar-sign text-green-400 font-bold"></i>
               </h3>
               <hr />
@@ -99,16 +108,37 @@ const BookDetails = () => {
                 Here is Some Feature You can use and Enjoy it.
               </h1>
               <div className="text-2xl">
-                <button>
+               
+                {/* {userWishList?.find(
+                  (list) => list?.book?._id === book?.data?._id
+                ) && (
+                  <BsFillHeartFill
+                    onClick={handleRemoveFromWishList}
+                    className="text-lg mx-1 text-red-600"
+                  ></BsFillHeartFill>
+                )}
+                {!userWishList?.data?.find(
+                  (list: IWishlist) => list?.book?._id === book?.data?._id
+                ) && (
+                  <AiOutlineHeart
+                    onClick={handleAddWishList}
+                    className="text-xl mx-1"
+                  ></AiOutlineHeart>
+                )} */}
+
+               
+                <button onClick={() => addToWishList(bookData?.data?._id)}>
                   <p className="">
                     <i className="fa-solid fa-heart mr-3"></i>{" "}
                   </p>
                 </button>
-
-                <button>
+{/* 
+                <button
+                onClick={()=>markAsRead(bookData?.data?._id)}
+                >
                   {" "}
                   <i className="fa-solid fa-square-check mr-3"></i>
-                </button>
+                </button> */}
                 <button>
                   <i className="fa-brands fa-readme mr-3"></i>
                 </button>
