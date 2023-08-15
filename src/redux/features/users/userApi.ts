@@ -22,10 +22,11 @@ const userApi = api.injectEndpoints({
     }),
     updateUser: builder.mutation<object, IUpdateUser>({
       query: ({ id, data }) => ({
-        url: `/user/${id}`,
+        url: `/user/${id!}`,
         method: "PATCH",
         body: data,
-      })
+      }),
+     
     }),
   }),
 });

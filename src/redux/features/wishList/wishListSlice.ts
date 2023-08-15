@@ -21,7 +21,7 @@ const wishListSlice = createSlice({
 
       if (!exist) {
         state.books.push(action.payload);
-        state.total = state.total + 1;
+        
       }
     },
     removeFromWishList: (state, action: PayloadAction<IBook>) => {

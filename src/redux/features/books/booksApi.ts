@@ -1,21 +1,17 @@
-import { IAllResponse, IBook, IResponse } from "../../../types/globalTypes";
+
 import { api } from "../../api/apiSlice";
 
-export interface IEditBook {
-  bookId: string | undefined;
-  data: Partial<IBook> | undefined;
-}
 
 const bookApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getBooks: builder.query<IAllResponse<IBook>, void>({
+    getBooks: builder.query({
       query: () => "/books",
     }),
     singleBook: builder.query({
       query: (id) => `/book/${id}`,
     }),
 
-    postBook: builder.mutation<object, IBook>({
+    postBook: builder.mutation({
       query: (data) => ({
         url: "/addBook",
         method: "POST",
@@ -23,7 +19,7 @@ const bookApi = api.injectEndpoints({
       }),
     }),
     
-    updateBook:builder.mutation<object, IEditBook>({
+    updateBook:builder.mutation({
       query: ({ bookId, data }) => ({
         url: `/book/${bookId!}`,
         method: "PATCH",
