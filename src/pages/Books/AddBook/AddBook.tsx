@@ -47,7 +47,7 @@ export default function AddBook() {
               {...register("title", { required: "Title is required" })}
             />
             {errors.title && (
-              <p className="form_error">{errors.title.message}</p>
+              <p className=" text-red-400">{errors.title.message}</p>
             )}
           </div>
           <div className="form-control">
@@ -61,7 +61,7 @@ export default function AddBook() {
               {...register("author", { required: "Author is required" })}
             />
             {errors.author && (
-              <p className="form_error">{errors.author.message}</p>
+              <p className=" text-red-400">{errors.author.message}</p>
             )}
           </div>
           <div className="form-control">
@@ -83,7 +83,7 @@ export default function AddBook() {
               <option>Non-Fiction</option>
             </select>
             {errors.genre && (
-              <p className="form_error">{errors.genre.message}</p>
+              <p className="text-red-400">{errors.genre.message}</p>
             )}
           </div>
           <div className="form-control">
@@ -97,7 +97,7 @@ export default function AddBook() {
               {...register("description", { required: "Description is required" })}
             />
             {errors.description && (
-              <p className="form_error">{errors.description.message}</p>
+              <p className="text-red-400">{errors.description.message}</p>
             )}
           </div>
           <div className="form-control">
@@ -113,7 +113,7 @@ export default function AddBook() {
               })}
             />
             {errors.publication_date && (
-              <p className="form_error">{errors.publication_date.message}</p>
+              <p className="text-red-400">{errors.publication_date.message}</p>
             )}
           </div>
 
@@ -128,7 +128,7 @@ export default function AddBook() {
               {...register("image", { required: "Image Required" })}
             />
             {errors.image && (
-              <p className="form_error">{errors.image.message}</p>
+              <p className="text-red-400">{errors.image.message}</p>
             )}
           </div>
           <div className="form-control">
@@ -142,7 +142,7 @@ export default function AddBook() {
               {...register("price", { required: "Price Required" })}
             />
             {errors.price && (
-              <p className="form_error">{errors.price.message}</p>
+              <p className="text-red-400">{errors.price.message}</p>
             )}
           </div>
           
