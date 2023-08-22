@@ -22,7 +22,7 @@ export interface IBook {
   publication_date: string;
   image?: string;
   price?: number;
-  createdBy: string;
+  addedBy: string;
   reviews?: IReviews[] | undefined
 }
 
@@ -39,29 +39,49 @@ export interface IBook {
 //   createdBy: string;
 //   reviews?: IReviews[] | undefined
 // }
-// export interface ISingleBook {
-//   book: IBook;
-//   _id: string;
-//   title: string;
-//   author: string;
-//   genre: string;
-//   publication_date: string;
-//   image: string;
-//   reviews?: {
-//     reviewer: string;
-//     rating: number;
-//     comment: string;
-//   }[];
-// }
+export interface ISingleBook {
+  book: IBook;
+  _id: string;
+  title: string;
+  author: string;
+  genre: string;
+  description: string;
+  publication_date: string;
+  image: string;
+  price?: number;
+  addedBy: string;
+  reviews?:IReviews[] | undefined;
+}
 
+// export interface IUser {
+//   _id?: string;
+//   userName: string;
+//   email: string;
+//   password: string;
+//   wishlist?: IBook[] | undefined;
+//   completedBooks?: IBook[] | undefined;
+//   currentlyReading?: IBook[] | undefined;
+// }
 export interface IUser {
-  _id?: string;
+  _id: string;
   userName: string;
   email: string;
-  password: string;
-  wishlist?: IBook[] | undefined;
-  completedBooks?: IBook[] | undefined;
-  currentlyReading?: IBook[] | undefined;
+}
+export interface IWishlist {
+  _id: string;
+  book?: ISingleBook;
+  user?: IUser;
+}
+export interface IAddBookInput {
+  _id?: string;
+  title: string;
+  author: string;
+  genre: string;
+  description: string;
+  publication_date: string;
+  image?: string;
+  price?: number;
+  addedBy?: string;
 }
 
 export interface IAllResponse<T> {

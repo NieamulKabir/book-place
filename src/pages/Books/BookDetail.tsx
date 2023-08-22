@@ -3,7 +3,7 @@ import {
 //   useGetBooksQuery,
   useSingleBookQuery,
 } from "../../redux/features/books/booksApi";
-import { IBook, IReviews } from "../../types/globalTypes";
+import { IReviews, ISingleBook } from "../../types/globalTypes";
 import BookDetailCard from "../../components/BookDetailCard";
 import Reviews from "../Reviews/Reviews";
 
@@ -12,7 +12,7 @@ const BookDetail = () => {
 
 //   const { data: allBooks } = useGetBooksQuery(undefined);
   const { data: bookData, isLoading } = useSingleBookQuery(bookId!);
-  const book: IBook = bookData?.data as IBook;
+  const book: ISingleBook = bookData?.data as ISingleBook;
   const reviews: IReviews[] | undefined = bookData?.data?.reviews ?? [];
 
   if (isLoading) {
@@ -20,7 +20,7 @@ const BookDetail = () => {
   }
   return (
     <>
-      <BookDetailCard book={book!} />
+      <BookDetailCard book={book} />
       <Reviews reviews={reviews!} bookId={bookId!} />
     </>
   );

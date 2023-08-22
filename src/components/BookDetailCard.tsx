@@ -1,34 +1,60 @@
-import { useNavigate } from "react-router-dom";
-import { IBook, IUser } from "../types/globalTypes";
+import { IBook, IWishlist } from "../types/globalTypes";
 import Rating from "./Rating/Rating";
+import { BsFillHeartFill } from "react-icons/bs";
+import { AiOutlineHeart } from "react-icons/ai";
+import { BiSolidEditAlt } from "react-icons/bi";
 import { useAppSelector } from "../redux/hook";
 import {
   useGetUserByEmailQuery,
-  useUpdateUserMutation,
+  useGetUserQuery,
 } from "../redux/features/users/userApi";
-import { updateWishlist } from "../utils/customHooks";
+
+import {
+  useAddWishListMutation,
+  useGetWishListQuery,
+} from "../redux/features/wishList/wishListApi";
+import { removeFromWishList } from "../redux/features/wishList/wishListSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 interface IProps {
   book: IBook;
 }
 
 const BookDetailCard = ({ book }: IProps) => {
+  const { id } = useParams();
   const navigate = useNavigate();
-
   const { user } = useAppSelector((state) => state.user);
+  // const {}= useAppSelector((state)=>state.wishList)
   const { data: getUser } = useGetUserByEmailQuery(user.email!);
-  const [updateUser, { isLoading }] = useUpdateUserMutation();
+  const [addToWishlist, { isLoading }] = useAddWishListMutation();
+  const { data } = useGetUserQuery(user.email!);
+  const { data: wishlist } = useGetWishListQuery(data?.data?._id);
+  console.log(wishlist?.data);
 
-  const userData: IUser = getUser?.data as IUser;
-  const id = userData?._id;
-  const userWishlist = userData?.wishlist;
-
-  const addToWishlist = (book: IBook) => {
-    updateWishlist(user?.email, book, userWishlist, updateUser, id, navigate);
+  const handleAddWishList = () => {
+    const payload = { userId: getUser?.data?._id, bookId: book?._id };
+    console.log(payload);
+    addToWishlist(payload);
+  };
+  const handleRemoveFromWishLsit = () => {
+    wishlist?.data?.forEach((list: IWishlist) => {
+      if (list?.book?._id === book?._id) {
+        removeFromWishList(list?._id);
+      }
+    });
   };
 
+  //edit
+  // const handleEditRoute = () => {
+  //   if (getUser?.data?._id === book?.user) {
+  //     navigate(`/book/${id}`);
+  //   } else {
+  //     toast.error(" Forbidden! You can only edit book that added by you");
+  //   }
+  // };
   if (isLoading) {
-    <p>Loading ...</p>;
+    <p>Loading</p>;
   }
   return (
     <>
@@ -93,43 +119,42 @@ const BookDetailCard = ({ book }: IProps) => {
               <h1 className="text-xl md:text-2xl font-semibold text-green-400">
                 Here is Some Feature You can use and Enjoy it.
               </h1>
-              <div className="text-2xl">
-                {/* {userWishList?.find(
-                  (list) => list?.book?._id === book?.data?._id
-                ) && (
-                  <BsFillHeartFill
-                    onClick={handleRemoveFromWishList}
-                    className="text-lg mx-1 text-red-600"
-                  ></BsFillHeartFill>
-                )}
-                {!userWishList?.data?.find(
-                  (list: IWishlist) => list?.book?._id === book?.data?._id
-                ) && (
-                  <AiOutlineHeart
-                    onClick={handleAddWishList}
-                    className="text-xl mx-1"
-                  ></AiOutlineHeart>
-                )} */}
 
-                <button onClick={() => addToWishlist(book._id!)}>
-                  <p className="">
-                    <i className="fa-solid fa-heart mr-3"></i>{" "}
-                  </p>
-                </button>
-                {/* 
-                <button
-                onClick={()=>markAsRead(bookData?.data?._id)}
-                >
-                  {" "}
-                  <i className="fa-solid fa-square-check mr-3"></i>
-                </button> */}
-                <button>
-                  <i className="fa-brands fa-readme mr-3"></i>
-                </button>
+              <div className="flex">
+                {/* {wishlist?.data?.find(
+                    (list:IWishlist) => list?.book?._id === book?._id
+                  ) && ( */}
+                <BsFillHeartFill
+                  onClick={handleRemoveFromWishLsit}
+                  className="text-lg mx-1 text-red-600"
+                ></BsFillHeartFill>
+                {/* )} */}
+                {/* {!wishlist?.data?.find(
+                    (list:IWishlist) => list?.book?._id === book?._id
+                  ) && ( */}
+                <AiOutlineHeart
+                  onClick={handleAddWishList}
+                  className="text-xl mx-1"
+                ></AiOutlineHeart>
+                {/* )} */}
               </div>
-              {/* <div className="card-actions justify-end">
-                <button className="btn btn-primary">Listen</button>
-              </div> */}
+
+              {book?.addedBy === user?.email && (
+                <div>
+                  <button onClick={() => navigate(`/editbook/${book._id!}`)}>
+                    <BiSolidEditAlt className="text-lg font-bold"></BiSolidEditAlt>
+                    <span className="mx-2"> Edit</span>{" "}
+                  </button>
+                </div>
+              )}
+
+              {/* <button
+                onClick={handleEditRoute}
+                className="bg-main text-white border border-main md:w-[200px] py-2 rounded-sm m-1 flex justify-center items-center"
+              >
+                <BiSolidEditAlt className="text-lg font-bold"></BiSolidEditAlt>
+                <span className="mx-2"> Edit</span>{" "}
+              </button> */}
             </div>
           </div>
         </div>
