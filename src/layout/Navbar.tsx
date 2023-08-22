@@ -61,6 +61,19 @@ const Navbar = () => {
               <button className="">All-Books</button>
             </NavLink>
           </li>
+          <li
+            className={`${
+              active === "/addBook" ? "text-green-300" : "text-white"
+            } hover:text-white text-[18px] font-medium cursor-pointer`}
+            onClick={() => setActive("/addBook")}
+          >
+            <NavLink to="/addBook">
+              <button className="">
+                
+              <i className="fa-solid fa-plus"></i> Add-Book
+                </button>
+            </NavLink>
+          </li>
 
           {/* login  */}
 

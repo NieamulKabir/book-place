@@ -34,16 +34,16 @@ export default function AddBook() {
   return (
     <div className="pt-32 px-3">
       <h2 className="text-green-400 text-center text-xl md:text-3xl font-bold pb-10">Add New Book</h2>
-      <div className="card flex-shrink-0 w-full max-w-sm md:max-w-xl shadow-2xl bg-base-200 mx-auto">
+      <div className="card flex-shrink-0 w-full max-w-sm md:max-w-xl shadow-2xl bg-gray-900 mx-auto">
         <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
           <div className="form-control">
-            <label className="label">
-              <span className="label-text">Title</span>
+            <label className="label ">
+              <span className="label-text text-green-400 font-semibold">Title</span>
             </label>
             <input
               type="text"
               placeholder="Book Title"
-              className="input input-bordered"
+              className="input input-bordered bg-gray-700 text-white"
               {...register("title", { required: "Title is required" })}
             />
             {errors.title && (
@@ -52,12 +52,12 @@ export default function AddBook() {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Author</span>
+              <span className="label-text text-green-400 font-semibold">Author</span>
             </label>
             <input
               type="text"
               placeholder="Author Name"
-              className="input input-bordered"
+              className="input input-bordered bg-gray-700 text-white"
               {...register("author", { required: "Author is required" })}
             />
             {errors.author && (
@@ -66,10 +66,10 @@ export default function AddBook() {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Genre</span>
+              <span className="label-text text-green-400 font-semibold">Genre</span>
             </label>
             <select
-              className="select w-full max-w-xs"
+              className="select w-full  bg-gray-700 text-white"
               {...register("genre", { required: "Genre is required" })}
             >
               <option selected>Select Genre</option>
@@ -88,12 +88,12 @@ export default function AddBook() {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Descriptions</span>
+              <span className="label-text text-green-400 font-semibold">Descriptions</span>
             </label>
             <input
               type="text"
               placeholder="Book Description"
-              className="input input-bordered"
+              className="input input-bordered bg-gray-700 text-white"
               {...register("description", { required: "Description is required" })}
             />
             {errors.description && (
@@ -102,12 +102,12 @@ export default function AddBook() {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Publication Date</span>
+              <span className="label-text text-green-400 font-semibold">Publication Date</span>
             </label>
             <input
               type="date"
               // placeholder="Jhankar Mahbub"
-              className="input input-bordered"
+              className="input input-bordered bg-gray-700 text-white"
               {...register("publication_date", {
                 required: "Publication Date is required",
               })}
@@ -119,12 +119,12 @@ export default function AddBook() {
 
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Image</span>
+              <span className="label-text text-green-400 font-semibold">Image</span>
             </label>
             <input
               type="text"
-              placeholder="Book Description"
-              className="input input-bordered"
+              placeholder="image url"
+              className="input input-bordered bg-gray-700 text-white"
               {...register("image", { required: "Image Required" })}
             />
             {errors.image && (
@@ -133,12 +133,12 @@ export default function AddBook() {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Price</span>
+              <span className="label-text text-green-400 font-semibold">Price</span>
             </label>
             <input
               type="text"
-              placeholder="Book Description"
-              className="input input-bordered"
+              placeholder="Book Price"
+              className="input input-bordered bg-gray-700 text-white"
               {...register("price", { required: "Price Required" })}
             />
             {errors.price && (
@@ -149,7 +149,7 @@ export default function AddBook() {
 
 
           <div className="form-control mt-6">
-            <button className="btn btn-primary">Add Book</button>
+            <button className="btn bg-green-400 border-0">Add Book</button>
           </div>
         </form>
       </div>

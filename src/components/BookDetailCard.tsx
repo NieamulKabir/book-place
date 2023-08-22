@@ -2,7 +2,6 @@ import { IBook, IWishlist } from "../types/globalTypes";
 import Rating from "./Rating/Rating";
 import { BsFillHeartFill } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
-import { BiSolidEditAlt } from "react-icons/bi";
 import { useAppSelector } from "../redux/hook";
 import {
   useGetUserByEmailQuery,
@@ -15,7 +14,7 @@ import {
 } from "../redux/features/wishList/wishListApi";
 import { removeFromWishList } from "../redux/features/wishList/wishListSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-hot-toast";
+// import { toast } from "react-hot-toast";
 
 interface IProps {
   book: IBook;
@@ -141,20 +140,18 @@ const BookDetailCard = ({ book }: IProps) => {
 
               {book?.addedBy === user?.email && (
                 <div>
-                  <button onClick={() => navigate(`/editbook/${book._id!}`)}>
-                    <BiSolidEditAlt className="text-lg font-bold"></BiSolidEditAlt>
+                  <button
+                    className="flex justify-center items-center bg-gray-700 px-3 py-1 rounded-lg"
+                    onClick={() => navigate(`/editbook/${book._id!}`)}
+                  >
+          
+                    <i className="fa-solid fa-pen-to-square text-lg font-bold"></i>
                     <span className="mx-2"> Edit</span>{" "}
                   </button>
                 </div>
               )}
 
-              {/* <button
-                onClick={handleEditRoute}
-                className="bg-main text-white border border-main md:w-[200px] py-2 rounded-sm m-1 flex justify-center items-center"
-              >
-                <BiSolidEditAlt className="text-lg font-bold"></BiSolidEditAlt>
-                <span className="mx-2"> Edit</span>{" "}
-              </button> */}
+          
             </div>
           </div>
         </div>
