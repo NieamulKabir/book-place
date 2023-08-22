@@ -8,10 +8,10 @@ import BookDetailCard from "../../components/BookDetailCard";
 import Reviews from "../Reviews/Reviews";
 
 const BookDetail = () => {
-  const { id: bookId } = useParams();
+  const { id } = useParams();
 
 //   const { data: allBooks } = useGetBooksQuery(undefined);
-  const { data: bookData, isLoading } = useSingleBookQuery(bookId!);
+  const { data: bookData, isLoading } = useSingleBookQuery(id!);
   const book: ISingleBook = bookData?.data as ISingleBook;
   const reviews: IReviews[] | undefined = bookData?.data?.reviews ?? [];
 
@@ -21,7 +21,7 @@ const BookDetail = () => {
   return (
     <>
       <BookDetailCard book={book} />
-      <Reviews reviews={reviews!} bookId={bookId!} />
+      <Reviews reviews={reviews!} id={id!} />
     </>
   );
 };

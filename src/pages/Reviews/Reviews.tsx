@@ -7,10 +7,10 @@ import { useUpdateBookMutation } from "../../redux/features/books/booksApi";
 import userImg from "../../assets/user.png";
 interface IProps {
   reviews: IReviews[];
-  bookId: string;
+  id: string;
 }
 
-const Reviews = ({ reviews, bookId }: IProps) => {
+const Reviews = ({ reviews, id }: IProps) => {
   const { user } = useAppSelector((state) => state.user);
   const { data: getUser } = useGetUserQuery(user.email!);
   const [updateBook, { isSuccess }] = useUpdateBookMutation();
@@ -42,7 +42,7 @@ const Reviews = ({ reviews, bookId }: IProps) => {
       const data = {
         reviews: [...reviews, commentData],
       };
-      updateBook({ bookId, data })
+      updateBook({ id, data })
         .then(() => {})
         .catch((error) => {
           console.log(error);

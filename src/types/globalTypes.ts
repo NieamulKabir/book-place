@@ -53,15 +53,6 @@ export interface ISingleBook {
   reviews?:IReviews[] | undefined;
 }
 
-// export interface IUser {
-//   _id?: string;
-//   userName: string;
-//   email: string;
-//   password: string;
-//   wishlist?: IBook[] | undefined;
-//   completedBooks?: IBook[] | undefined;
-//   currentlyReading?: IBook[] | undefined;
-// }
 export interface IUser {
   _id: string;
   userName: string;
