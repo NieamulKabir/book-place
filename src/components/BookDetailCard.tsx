@@ -14,7 +14,10 @@ import {
 } from "../redux/features/wishList/wishListApi";
 import { removeFromWishList } from "../redux/features/wishList/wishListSlice";
 import { useNavigate, useParams } from "react-router-dom";
-// import { toast } from "react-hot-toast";
+import { useState } from "react";
+import { useDeleteBookMutation } from "../redux/features/books/booksApi";
+import { toast } from "react-hot-toast";
+import DeleteModal from "./ui/deleteModal/DeleteModal";
 
 interface IProps {
   book: IBook;
@@ -23,11 +26,14 @@ interface IProps {
 const BookDetailCard = ({ book }: IProps) => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  //user data
   const { user } = useAppSelector((state) => state.user);
-  // const {}= useAppSelector((state)=>state.wishList)
   const { data: getUser } = useGetUserByEmailQuery(user.email!);
-  const [addToWishlist, { isLoading }] = useAddWishListMutation();
   const { data } = useGetUserQuery(user.email!);
+
+  //wishlist
+  const [addToWishlist, { isLoading }] = useAddWishListMutation();
   const { data: wishlist } = useGetWishListQuery(data?.data?._id);
   console.log(wishlist?.data);
 
@@ -36,7 +42,7 @@ const BookDetailCard = ({ book }: IProps) => {
     console.log(payload);
     addToWishlist(payload);
   };
-  const handleRemoveFromWishLsit = () => {
+  const handleRemoveFromWishList = () => {
     wishlist?.data?.forEach((list: IWishlist) => {
       if (list?.book?._id === book?._id) {
         removeFromWishList(list?._id);
@@ -44,21 +50,34 @@ const BookDetailCard = ({ book }: IProps) => {
     });
   };
 
-  //edit
-  // const handleEditRoute = () => {
-  //   if (getUser?.data?._id === book?.user) {
-  //     navigate(`/book/${id}`);
-  //   } else {
-  //     toast.error(" Forbidden! You can only edit book that added by you");
-  //   }
-  // };
+  //delete item
+  // modal
+  const [deleteBook] = useDeleteBookMutation();
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  const handleDelete = () => {
+    if (getUser?.data?.email === book?.addedBy) {
+      deleteBook(id);
+      toast.success("Book Deleted Successfully");
+      navigate("/allBooks");
+    } else {
+      toast.error("Sorry! You can only Delete book that added by you");
+    }
+  };
+  const handleDeleteOpenModal = () => {
+    setDeleteModalOpen(true);
+  };
+  const handleDeleteCloseModal = () => {
+    setDeleteModalOpen(false);
+  };
+
   if (isLoading) {
     <p>Loading</p>;
   }
   return (
     <>
       <div>
-        <h1 className="mt-20">hwllo</h1>
+        <h1 className="mt-20">hello</h1>
 
         <div className="mx-4">
           <div className="card lg:card-side bg-gray-900 shadow-xl max-w-7xl mx-auto border-b text-white ">
@@ -124,7 +143,7 @@ const BookDetailCard = ({ book }: IProps) => {
                     (list:IWishlist) => list?.book?._id === book?._id
                   ) && ( */}
                 <BsFillHeartFill
-                  onClick={handleRemoveFromWishLsit}
+                  onClick={handleRemoveFromWishList}
                   className="text-lg mx-1 text-red-600"
                 ></BsFillHeartFill>
                 {/* )} */}
@@ -139,19 +158,31 @@ const BookDetailCard = ({ book }: IProps) => {
               </div>
 
               {book?.addedBy === user?.email && (
-                <div>
+                <div className="flex item-center">
                   <button
-                    className="flex justify-center items-center bg-gray-700 px-3 py-1 rounded-lg"
-                    onClick={() => navigate(`/editbook/${book._id!}`)}
+                    className="flex justify-center items-center bg-gray-700 px-3 py-1 rounded-lg mr-3"
+                    onClick={() => navigate(`/editBook/${book._id!}`)}
                   >
-          
                     <i className="fa-solid fa-pen-to-square text-lg font-bold"></i>
                     <span className="mx-2"> Edit</span>{" "}
                   </button>
+                  {/* delete modal  */}
+
+                  <button
+                    onClick={handleDeleteOpenModal}
+                    className="flex justify-center items-center bg-gray-700 px-3 py-1 rounded-lg"
+                  >
+                    <i className="fa-solid fa-trash-can text-lg font-bold"></i>
+                    <span className="mx-2"> Delete</span>{" "}
+                  </button>
+                  {isDeleteModalOpen && (
+                    <DeleteModal
+                      onDelete={handleDelete}
+                      onCancel={handleDeleteCloseModal}
+                    />
+                  )}
                 </div>
               )}
-
-          
             </div>
           </div>
         </div>
