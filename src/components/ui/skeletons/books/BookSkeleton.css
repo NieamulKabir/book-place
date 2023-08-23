@@ -1,0 +1,50 @@
+.sk-featured,
+.sk-button,
+.sk-name,
+.sk-author,
+.sk-image,
+.sk-price {
+  background-color: #dfdfdf;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.sk-featured,
+.sk-name,
+.sk-author,
+.sk-price {
+  border: none;
+  cursor: default;
+  user-select: none;
+  color: transparent;
+  border-radius: 5px;
+  max-width: max-content;
+}
+
+.sk-button {
+  height: 25px;
+  width: 25px;
+  border-radius: 5px;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}

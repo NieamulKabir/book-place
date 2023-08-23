@@ -1,6 +1,7 @@
 import { useGetBooksQuery } from "../../../redux/features/books/booksApi";
 import { IBook } from "../../../types/globalTypes";
 import BookCard from "../../../components/BookCard/BookCard";
+import BooksSkeleton from "../../../components/ui/skeletons/books/BooksSkeleton"
 
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
@@ -20,29 +21,11 @@ const yearSelect = () => {
 };
 const AllBooks = () => {
   const dispatch = useAppDispatch();
-  const { data: booksData } = useGetBooksQuery(undefined);
+  const { data: booksData ,isLoading} = useGetBooksQuery(undefined);
 
   const allBooks = booksData?.data;
 
-  // let bookContent: IBook[] = allBooks;
-  // bookContent = allBooks
-  //   ?.filter((book: IBook) => {
-  //     if (keyword) {
-  //       return book.title
-  //         .toLocaleLowerCase()
-  //         .includes(keyword.toLocaleLowerCase());
-  //     }
-  //     return book;
-  //   })
-  //   .filter((book: IBook) => {
-  //     if (genre.length) return genre.includes(book.genre);
-  //     return book;
-  //   })
-  //   .filter((book: IBook) => {
-  //     if (published_year.length)
-  //       return published_year.includes(book.publication_date);
-  //     return book;
-  //   });
+ 
   let bookContent;
   const searchValue = useAppSelector((state) => state.search.keyword);
   const genreValue = useAppSelector((state) => state.search.genre);
@@ -130,8 +113,11 @@ const AllBooks = () => {
   if (searchValue === "" && genreValue === "" && publishedYearValue === "") {
     bookContent = allBooks;
   }
+
+
   return (
     <div className="bg-gray-900 py-28">
+        {isLoading && <BooksSkeleton />}
       <h1 className="text-center text-2xl md:text-4xl text-green-400  font-bold">
         Explore Your Desire Book{" "}
       </h1>
