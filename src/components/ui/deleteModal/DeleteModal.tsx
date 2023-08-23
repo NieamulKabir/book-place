@@ -30,7 +30,7 @@ const DeleteModal:React.FC<DeleteModalProps> = ({ onDelete, onCancel })=> {
               onClick={handleCancel}
               className="px-4 py-2 text-white border border-green-400 rounded-xl font-semibold mr-2"
             >
-              Cancel
+             <i className="fa-solid fa-xmark mr-1 font-bold"></i> Cancel
             </button>
             <button
               onClick={handleDelete}
