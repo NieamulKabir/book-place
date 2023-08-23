@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-const DeleteModal = ({ onDelete, onCancel }) => {
+type DeleteModalProps = {
+    onCancel: () => void;
+    onDelete: () => void;
+  };
+const DeleteModal:React.FC<DeleteModalProps> = ({ onDelete, onCancel })=> {
   const [isModalOpen, setModalOpen] = useState(true);
   const handleDelete = () => {
     onDelete();
