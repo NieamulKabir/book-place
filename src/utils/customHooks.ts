@@ -30,7 +30,7 @@ export const updateWishlist = (
       };
       updateUser({ id: userId, data })
         .then(() => {
-          toast.success("Remove Successfully")
+          toast.success("Remove Successfully from wishList")
 
           //   console.log(data);
         })
@@ -47,7 +47,7 @@ export const updateWishlist = (
           };
       updateUser({ id: userId, data })
         .then(() => {
-          toast.success("Add Successfully")
+          toast.success("Add WishList Successfully ")
         })
         .catch((error) => {
           console.log(error);
@@ -80,7 +80,7 @@ export const updateCompletedBooks = (
       };
       updateUser({ id: userId, data })
         .then(() => {
-          //   console.log(data);
+          toast.success("Remove CompleteList Successfully")
         })
         .catch((error) => {
           console.log(error);
@@ -95,7 +95,7 @@ export const updateCompletedBooks = (
           };
       updateUser({ id: userId, data })
         .then(() => {
-          //   console.log(data);
+          toast.success("Add Complete List Successfully")
          
         })
         .catch((error) => {
@@ -132,7 +132,7 @@ export const updateCurrentlyReading = (
       };
       updateUser({ id: userId, data })
         .then(() => {
-          //   console.log(data);
+          toast.success('Remove from Reading list')
         })
         .catch((error) => {
           console.log(error);
@@ -147,7 +147,7 @@ export const updateCurrentlyReading = (
           };
       updateUser({ id: userId, data })
         .then(() => {
-          //   console.log(data);
+        toast.success('Add Reading List')
         })
         .catch((error) => {
           console.log(error);
