@@ -1,16 +1,15 @@
 import { useParams } from "react-router-dom";
 import {
-//   useGetBooksQuery,
+  //   useGetBooksQuery,
   useSingleBookQuery,
-} from "../../redux/features/books/booksApi";
-import { IReviews, ISingleBook } from "../../types/globalTypes";
-import BookDetailCard from "../../components/BookDetailCard";
-import Reviews from "../Reviews/Reviews";
+} from "../../../redux/features/books/booksApi";
+import { IReviews, ISingleBook } from "../../../types/globalTypes";
+import BookDetailCard from "../../../components/BookDetailCard";
+import Reviews from "../../Reviews/Reviews";
 
 const BookDetail = () => {
   const { id } = useParams();
 
-//   const { data: allBooks } = useGetBooksQuery(undefined);
   const { data: bookData, isLoading } = useSingleBookQuery(id!);
   const book: ISingleBook = bookData?.data as ISingleBook;
   const reviews: IReviews[] | undefined = bookData?.data?.reviews ?? [];

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { IBook } from "../types/globalTypes";
 
 export const isValidUrl = (url: string) => {
@@ -19,8 +20,21 @@ export const updateWishlist = (
 ) => {
   if (userEmail) {
     const isExist = userWishlist?.find((list) => list._id === book._id);
-    console.log(userWishlist);
-    if (!isExist) {
+    if (isExist) {
+      const removeFromWishlist = userWishlist?.filter(
+        (list) => list?._id !== book?._id
+      );
+      const data = {
+        wishlist: removeFromWishlist,
+      };
+      updateUser({ id: userId, data })
+        .then(() => {
+          //   console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
       const data = userWishlist
         ? {
             wishlist: [...userWishlist, book],
@@ -28,24 +42,9 @@ export const updateWishlist = (
         : {
             wishlist: [book],
           };
-      console.log(data);
       updateUser({ id: userId, data })
         .then(() => {
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      const removeFromWishlist = userWishlist?.filter(
-        (list) => list._id !== book._id
-      );
-      const data = {
-        wishlist: removeFromWishlist,
-      };
-      updateUser({ id: userId, data })
-        .then(() => {
-          console.log(data);
+          //   console.log(data);
         })
         .catch((error) => {
           console.log(error);

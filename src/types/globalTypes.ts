@@ -54,9 +54,10 @@ export interface ISingleBook {
 }
 
 export interface IUser {
-  _id: string;
+  _id?: string;
   userName: string;
   email: string;
+  wishlist?: IBook[] | undefined;
 }
 export interface IWishlist {
   _id: string;

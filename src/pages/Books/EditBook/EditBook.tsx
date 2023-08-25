@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import {
   useSingleBookQuery,
   useUpdateBookMutation,
@@ -14,7 +14,7 @@ const EditBook = () => {
   const { data: book } = useSingleBookQuery(id);
   console.log(book);
   const { user } = useAppSelector((state) => state.user);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const { data: currentUser } = useGetUserQuery(user.email!);
   const [updateBook] = useUpdateBookMutation();

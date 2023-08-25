@@ -1,55 +1,45 @@
-import { IBook, IWishlist } from "../types/globalTypes";
+import { IBook, IUser } from "../types/globalTypes";
 import Rating from "./Rating/Rating";
 import { BsFillHeartFill } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useAppSelector } from "../redux/hook";
 import {
   useGetUserByEmailQuery,
-  useGetUserQuery,
+  useUpdateUserMutation,
 } from "../redux/features/users/userApi";
 
-import {
-  useAddWishListMutation,
-  useGetWishListQuery,
-} from "../redux/features/wishList/wishListApi";
-import { removeFromWishList } from "../redux/features/wishList/wishListSlice";
-import { useNavigate, useParams } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDeleteBookMutation } from "../redux/features/books/booksApi";
 import { toast } from "react-hot-toast";
 import DeleteModal from "./ui/deleteModal/DeleteModal";
+import { updateWishlist } from "../utils/customHooks";
 
 interface IProps {
   book: IBook;
 }
 
 const BookDetailCard = ({ book }: IProps) => {
-  const { id } = useParams();
+  // const { id } = useParams();
   const navigate = useNavigate();
 
   //user data
   const { user } = useAppSelector((state) => state.user);
   const { data: getUser } = useGetUserByEmailQuery(user.email!);
-  const { data } = useGetUserQuery(user.email!);
+  // const { data } = useGetUserQuery(user.email!);
 
-  //wishlist
-  const [addToWishlist, { isLoading }] = useAddWishListMutation();
-  const { data: wishlist } = useGetWishListQuery(data?.data?._id);
-  console.log(wishlist?.data);
-
-  const handleAddWishList = () => {
-    const payload = { userId: getUser?.data?._id, bookId: book?._id };
-    console.log(payload);
-    addToWishlist(payload);
+  
+  const [updateUser, {isLoading }] = useUpdateUserMutation();
+  const userData: IUser = getUser?.data as IUser;
+  console.log(userData);
+  const id = userData?._id;
+  const userWishlist = userData?.wishlist;
+  
+  const addToWishlist = (book: IBook) => {
+    updateWishlist(user?.email, book, userWishlist, updateUser, id, navigate);
+   
   };
-  const handleRemoveFromWishList = () => {
-    wishlist?.data?.forEach((list: IWishlist) => {
-      if (list?.book?._id === book?._id) {
-        removeFromWishList(list?._id);
-      }
-    });
-  };
-
   //delete item
   // modal
   const [deleteBook] = useDeleteBookMutation();
@@ -89,74 +79,84 @@ const BookDetailCard = ({ book }: IProps) => {
               />
             </figure>
             <div className="card-body md:w-[60%]">
-              <h2 className="text-2xl lg:text-4xl font-bold">{book?.title}</h2>
-              <h3 className="text-sm md:ml-8 -mt-2">
-                <span className="text-green-400 font-bold">
-                  <i className="fa-solid fa-feather"></i> By -
-                </span>{" "}
-                {book?.author}
-              </h3>
-              <hr />
-              <h3 className="text-gray-400">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptates error ullam repudiandae officia qui natus officiis
-                nostrum ab quibusdam ratione? Adipisci maiores expedita quaerat
-                ullam, officia rerum dolores culpa eligendi totam in similique
-                ipsam? Officia temporibus ad magnam quaerat eos repellendus
-                aliquam. Impedit ipsum minima velit debitis saepe nemo a ducimus
-                placeat aut dolorum ratione rerum eum nam, fugit quos
-                voluptatibus eius, tenetur architecto? Hic eveniet nam
-                exercitationem perspiciatis aliquam facilis, quia, ducimus modi
-                fugiat tempora, eaque pariatur vitae obcaecati nemo odit
-                deserunt dicta ipsa molestiae voluptate. Saepe reiciendis,
-                officia voluptas amet itaque totam debitis excepturi quisquam
-                eos asperiores maiores.
-              </h3>
-              <h3 className="">
-                {" "}
-                <i className="fa-solid fa-circle-arrow-right text-green-400 font-bold"></i>{" "}
-                Genre :{" "}
-                <span className="text-green-400 font-bold">{book?.genre}</span>
-              </h3>
-              <h3 className="">
-                {" "}
-                <i className="fa-solid fa-circle-arrow-right text-green-400 font-bold"></i>{" "}
-                Publication On :{" "}
-                <span className="text-green-400 font-bold">
-                  {book?.publication_date}
-                </span>
-              </h3>
-              <h3>
-                <Rating key={book?._id} book={book} />
-              </h3>
-              <h3>
-                {book?.price}
-                <i className="fa-solid fa-dollar-sign text-green-400 font-bold"></i>
-              </h3>
-              <hr />
-              <h1 className="text-xl md:text-2xl font-semibold text-green-400">
-                Here is Some Feature You can use and Enjoy it.
-              </h1>
-
-              <div className="flex">
-                {/* {wishlist?.data?.find(
-                    (list:IWishlist) => list?.book?._id === book?._id
-                  ) && ( */}
-                <BsFillHeartFill
-                  onClick={handleRemoveFromWishList}
-                  className="text-lg mx-1 text-red-600"
-                ></BsFillHeartFill>
-                {/* )} */}
-                {/* {!wishlist?.data?.find(
-                    (list:IWishlist) => list?.book?._id === book?._id
-                  ) && ( */}
-                <AiOutlineHeart
-                  onClick={handleAddWishList}
-                  className="text-xl mx-1"
-                ></AiOutlineHeart>
-                {/* )} */}
+              <div>
+                <h2 className="text-2xl lg:text-4xl font-bold">
+                  {book?.title}
+                </h2>
+                <h3 className="text-sm md:ml-8">
+                  <span className="text-green-400 font-bold">
+                    <i className="fa-solid fa-feather"></i> By -
+                  </span>{" "}
+                  {book?.author}
+                </h3>
+                <hr />
+                <h3 className="text-gray-400">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Voluptates error ullam repudiandae officia qui natus officiis
+                  nostrum ab quibusdam ratione? Adipisci maiores expedita
+                  quaerat ullam, officia rerum dolores culpa eligendi totam in
+                  similique ipsam? Officia temporibus ad magnam quaerat eos
+                  repellendus aliquam. Impedit ipsum minima velit debitis saepe
+                  nemo a ducimus placeat aut dolorum ratione rerum eum nam,
+                  fugit quos voluptatibus eius, tenetur architecto? Hic eveniet
+                  nam exercitationem perspiciatis aliquam facilis, quia, ducimus
+                  modi fugiat tempora, eaque pariatur vitae obcaecati nemo odit
+                  deserunt dicta ipsa molestiae voluptate. Saepe reiciendis,
+                  officia voluptas amet itaque totam debitis excepturi quisquam
+                  eos asperiores maiores.
+                </h3>
+                <h3 className="">
+                  {" "}
+                  <i className="fa-solid fa-circle-arrow-right text-green-400 font-bold"></i>{" "}
+                  Genre :{" "}
+                  <span className="text-green-400 font-bold">
+                    {book?.genre}
+                  </span>
+                </h3>
+                <h3 className="">
+                  {" "}
+                  <i className="fa-solid fa-circle-arrow-right text-green-400 font-bold"></i>{" "}
+                  Publication On :{" "}
+                  <span className="text-green-400 font-bold">
+                    {book?.publication_date}
+                  </span>
+                </h3>
+                <h3>
+                  <Rating key={book?._id} book={book} />
+                </h3>
+                <h3>
+                  {book?.price}
+                  <i className="fa-solid fa-dollar-sign text-green-400 font-bold"></i>
+                </h3>
+                <hr />
+                <h1 className="text-xl md:text-2xl font-semibold text-green-400">
+                  Here is Some Feature You can use and Enjoy it.
+                </h1>
               </div>
 
+      
+
+<>
+              {userWishlist?.find((wishlist) => wishlist._id === book._id) ? (
+               
+               <BsFillHeartFill
+               onClick={() => addToWishlist(book)}
+               className="text-xl mx-1 text-red-500"
+             ></BsFillHeartFill>
+               
+               
+              ) : (
+               
+                <AiOutlineHeart
+                onClick={() => addToWishlist(book)}
+                className="text-xl mx-1"
+              ></AiOutlineHeart>
+                
+              )}
+            </>
+              
+
+              {/* user check */}
               {book?.addedBy === user?.email && (
                 <div className="flex item-center">
                   <button
@@ -167,7 +167,6 @@ const BookDetailCard = ({ book }: IProps) => {
                     <span className="mx-2"> Edit</span>{" "}
                   </button>
                   {/* delete modal  */}
-
                   <button
                     onClick={handleDeleteOpenModal}
                     className="flex justify-center items-center bg-gray-700 px-3 py-1 rounded-lg"
