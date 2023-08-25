@@ -2,6 +2,9 @@ import { IBook, IUser } from "../types/globalTypes";
 import Rating from "./Rating/Rating";
 import { BsFillHeartFill } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
+import { MdBookmarkAdded } from "react-icons/md";
+import { BiBookAdd } from "react-icons/bi";
+import { TiTick, TiTickOutline } from "react-icons/ti";
 import { useAppSelector } from "../redux/hook";
 import {
   useGetUserByEmailQuery,
@@ -13,7 +16,11 @@ import { useState } from "react";
 import { useDeleteBookMutation } from "../redux/features/books/booksApi";
 import { toast } from "react-hot-toast";
 import DeleteModal from "./ui/deleteModal/DeleteModal";
-import { updateWishlist } from "../utils/customHooks";
+import {
+  updateCompletedBooks,
+  updateCurrentlyReading,
+  updateWishlist,
+} from "../utils/customHooks";
 
 interface IProps {
   book: IBook;
@@ -31,9 +38,32 @@ const BookDetailCard = ({ book }: IProps) => {
 
   const id = userData?._id;
   const userWishlist = userData?.wishlist;
+  const completedBooks = userData?.completedBooks;
+  const currentlyReading = userData?.currentlyReading;
 
   const addToWishlist = (book: IBook) => {
     updateWishlist(user?.email, book, userWishlist, updateUser, id, navigate);
+  };
+  const markAsRead = (book: IBook) => {
+    updateCompletedBooks(
+      user?.email,
+      book,
+      completedBooks,
+      updateUser,
+      id,
+      navigate
+    );
+  };
+
+  const readingNow = (book: IBook) => {
+    updateCurrentlyReading(
+      user?.email,
+      book,
+      currentlyReading,
+      updateUser,
+      id,
+      navigate
+    );
   };
   //delete item
   // modal
@@ -75,15 +105,64 @@ const BookDetailCard = ({ book }: IProps) => {
             </figure>
             <div className="card-body md:w-[60%]">
               <div>
-                <h2 className="text-2xl lg:text-4xl font-bold">
-                  {book?.title}
-                </h2>
-                <h3 className="text-sm md:ml-8">
-                  <span className="text-green-400 font-bold">
-                    <i className="fa-solid fa-feather"></i> By -
-                  </span>{" "}
-                  {book?.author}
-                </h3>
+                <div className="flex justify-between">
+                  <div>
+                    <h2 className="text-2xl lg:text-4xl font-bold">
+                      {book?.title}
+                    </h2>
+                    <h3 className="text-sm md:ml-8">
+                      <span className="text-green-400 font-bold">
+                        <i className="fa-solid fa-feather"></i> By -
+                      </span>{" "}
+                      {book?.author}
+                    </h3>
+                  </div>
+
+                  {/* wishlist , readingList ,Done Reding  */}
+                  <div className="flex  items-center">
+                    {userWishlist?.find(
+                      (wishlist) => wishlist?._id === book?._id
+                    ) ? (
+                      <BsFillHeartFill
+                        onClick={() => addToWishlist(book)}
+                        className="text-xl mx-1 text-red-500 cursor-pointer"
+                      ></BsFillHeartFill>
+                    ) : (
+                      <AiOutlineHeart
+                        onClick={() => addToWishlist(book)}
+                        className="text-xl mx-1 cursor-pointer"
+                      ></AiOutlineHeart>
+                    )}
+
+                    {currentlyReading?.find(
+                      (reading) => reading?._id === book?._id
+                    ) ? (
+                      <MdBookmarkAdded
+                        onClick={() => readingNow(book)}
+                        className="text-xl mx-1 text-green-500 cursor-pointer"
+                      ></MdBookmarkAdded>
+                    ) : (
+                      <BiBookAdd
+                        onClick={() => readingNow(book)}
+                        className="text-xl mx-1 cursor-pointer"
+                      ></BiBookAdd>
+                    )}
+
+                    {completedBooks?.find(
+                      (completed) => completed?._id === book?._id
+                    ) ? (
+                      <TiTick
+                        onClick={() => markAsRead(book)}
+                        className="text-xl mx-1 text-green-500 cursor-pointer"
+                      ></TiTick>
+                    ) : (
+                      <TiTickOutline
+                        onClick={() => markAsRead(book)}
+                        className="text-xl mx-1 cursor-pointer"
+                      ></TiTickOutline>
+                    )}
+                  </div>
+                </div>
                 <hr />
                 <h3 className="text-gray-400">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -124,24 +203,10 @@ const BookDetailCard = ({ book }: IProps) => {
                   <i className="fa-solid fa-dollar-sign text-green-400 font-bold"></i>
                 </h3>
                 <hr />
-                <h1 className="text-xl md:text-2xl font-semibold text-green-400">
-                  Here is Some Feature You can use and Enjoy it.
-                </h1>
+                
               </div>
 
-              <>
-                {userWishlist?.find((wishlist) => wishlist._id === book._id) ? (
-                  <BsFillHeartFill
-                    onClick={() => addToWishlist(book)}
-                    className="text-xl mx-1 text-red-500"
-                  ></BsFillHeartFill>
-                ) : (
-                  <AiOutlineHeart
-                    onClick={() => addToWishlist(book)}
-                    className="text-xl mx-1"
-                  ></AiOutlineHeart>
-                )}
-              </>
+              
 
               {/* user check */}
               {book?.addedBy === user?.email && (

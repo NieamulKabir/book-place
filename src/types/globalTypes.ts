@@ -58,6 +58,8 @@ export interface IUser {
   userName: string;
   email: string;
   wishlist?: IBook[] | undefined;
+  completedBooks?: IBook[] | undefined;
+  currentlyReading?: IBook[] | undefined;
 }
 export interface IWishlist {
   _id: string;

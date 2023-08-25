@@ -31,6 +31,7 @@ export const updateWishlist = (
       updateUser({ id: userId, data })
         .then(() => {
           toast.success("Remove Successfully")
+
           //   console.log(data);
         })
         .catch((error) => {
@@ -50,8 +51,109 @@ export const updateWishlist = (
         })
         .catch((error) => {
           console.log(error);
+          
         });
     }
+  } else {
+    navigate("/signUp");
+  }
+};
+export const updateCompletedBooks = (
+  userEmail: string | null,
+  book: IBook,
+  completedBooks: IBook[] | undefined,
+  updateUser: (arg0: {
+    id: string | undefined;
+    data: { completedBooks: IBook[] | undefined } | { completedBooks: IBook[] };
+  }) => Promise<any>,
+  userId: string | undefined,
+  navigate: (route: string) => void
+) => {
+  if (userEmail) {
+    const isExist = completedBooks?.find((list) => list._id === book._id);
+    if (isExist) {
+      const removeFromCompleted = completedBooks?.filter(
+        (list) => list._id !== book._id
+      );
+      const data = {
+        completedBooks: removeFromCompleted,
+      };
+      updateUser({ id: userId, data })
+        .then(() => {
+          //   console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      const data = completedBooks
+        ? {
+            completedBooks: [...completedBooks, book],
+          }
+        : {
+            completedBooks: [book],
+          };
+      updateUser({ id: userId, data })
+        .then(() => {
+          //   console.log(data);
+         
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    
+  } else {
+    navigate("/signUp");
+  }
+};
+
+export const updateCurrentlyReading = (
+  userEmail: string | null,
+  book: IBook,
+  currentlyReading: IBook[] | undefined,
+  updateUser: (arg0: {
+    id: string | undefined;
+    data:
+      | { currentlyReading: IBook[] | undefined }
+      | { currentlyReading: IBook[] };
+  }) => Promise<any>,
+  userId: string | undefined,
+  navigate: (route: string) => void
+) => {
+  if (userEmail) {
+    const isExist = currentlyReading?.find((list) => list._id === book._id);
+    if (isExist) {
+      const removeFromReading = currentlyReading?.filter(
+        (list) => list._id !== book._id
+      );
+      const data = {
+        currentlyReading: removeFromReading,
+      };
+      updateUser({ id: userId, data })
+        .then(() => {
+          //   console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      const data = currentlyReading
+        ? {
+            currentlyReading: [...currentlyReading, book],
+          }
+        : {
+            currentlyReading: [book],
+          };
+      updateUser({ id: userId, data })
+        .then(() => {
+          //   console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
   } else {
     navigate("/signUp");
   }
