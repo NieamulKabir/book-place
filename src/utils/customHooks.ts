@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { toast } from "react-hot-toast";
 import { IBook } from "../types/globalTypes";
 
-export const isValidUrl = (url: string) => {
-  const pattern = /^(ftp|http|https):\/\/[^ "]+$/;
-  return pattern.test(url);
-};
+// export const isValidUrl = (url: string) => {
+//   const pattern = /^(ftp|http|https):\/\/[^ "]+$/;
+//   return pattern.test(url);
+// };
 
 export const updateWishlist = (
   userEmail: string | null,
@@ -29,6 +30,7 @@ export const updateWishlist = (
       };
       updateUser({ id: userId, data })
         .then(() => {
+          toast.success("Remove Successfully")
           //   console.log(data);
         })
         .catch((error) => {
@@ -44,13 +46,13 @@ export const updateWishlist = (
           };
       updateUser({ id: userId, data })
         .then(() => {
-          //   console.log(data);
+          toast.success("Add Successfully")
         })
         .catch((error) => {
           console.log(error);
         });
     }
   } else {
-    navigate("/signin");
+    navigate("/signUp");
   }
 };

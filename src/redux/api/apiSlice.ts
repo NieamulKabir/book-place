@@ -6,6 +6,6 @@ export const api = createApi({
     baseUrl: "http://localhost:5000",
     // baseUrl: "https://bookplace-server.vercel.app",
   }),
-  tagTypes: ["postBook", "deleteBook", "updateBook"],
+  tagTypes: ["postBook", "deleteBook", "updateBook","wishList"],
   endpoints: () => ({}),
 });

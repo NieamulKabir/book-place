@@ -8,7 +8,6 @@ import {
   useUpdateUserMutation,
 } from "../redux/features/users/userApi";
 
-
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDeleteBookMutation } from "../redux/features/books/booksApi";
@@ -21,24 +20,20 @@ interface IProps {
 }
 
 const BookDetailCard = ({ book }: IProps) => {
-  // const { id } = useParams();
   const navigate = useNavigate();
 
   //user data
   const { user } = useAppSelector((state) => state.user);
   const { data: getUser } = useGetUserByEmailQuery(user.email!);
-  // const { data } = useGetUserQuery(user.email!);
 
-  
-  const [updateUser, {isLoading }] = useUpdateUserMutation();
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
   const userData: IUser = getUser?.data as IUser;
-  console.log(userData);
+
   const id = userData?._id;
   const userWishlist = userData?.wishlist;
-  
+
   const addToWishlist = (book: IBook) => {
     updateWishlist(user?.email, book, userWishlist, updateUser, id, navigate);
-   
   };
   //delete item
   // modal
@@ -134,27 +129,19 @@ const BookDetailCard = ({ book }: IProps) => {
                 </h1>
               </div>
 
-      
-
-<>
-              {userWishlist?.find((wishlist) => wishlist._id === book._id) ? (
-               
-               <BsFillHeartFill
-               onClick={() => addToWishlist(book)}
-               className="text-xl mx-1 text-red-500"
-             ></BsFillHeartFill>
-               
-               
-              ) : (
-               
-                <AiOutlineHeart
-                onClick={() => addToWishlist(book)}
-                className="text-xl mx-1"
-              ></AiOutlineHeart>
-                
-              )}
-            </>
-              
+              <>
+                {userWishlist?.find((wishlist) => wishlist._id === book._id) ? (
+                  <BsFillHeartFill
+                    onClick={() => addToWishlist(book)}
+                    className="text-xl mx-1 text-red-500"
+                  ></BsFillHeartFill>
+                ) : (
+                  <AiOutlineHeart
+                    onClick={() => addToWishlist(book)}
+                    className="text-xl mx-1"
+                  ></AiOutlineHeart>
+                )}
+              </>
 
               {/* user check */}
               {book?.addedBy === user?.email && (

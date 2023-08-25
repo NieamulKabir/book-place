@@ -72,7 +72,7 @@ export default function AddBook() {
               className="select w-full  bg-gray-700 text-white"
               {...register("genre", { required: "Genre is required" })}
             >
-              <option selected>Select Genre</option>
+              <option defaultValue=''>Select Genre</option>
               <option>Fantasy</option>
               <option>Thrillers</option>
               <option>Biography</option>

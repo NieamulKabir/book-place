@@ -19,6 +19,7 @@ const userApi = api.injectEndpoints({
     }),
     getUserByEmail: builder.query<IResponse<IUser>, string>({
       query: (email) => `/user/${email}`,
+      providesTags: ["wishList"],
     }),
     updateUser: builder.mutation<object, IUpdateUser>({
       query: ({ id, data }) => ({
@@ -26,7 +27,7 @@ const userApi = api.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-     
+      invalidatesTags:['wishList']
     }),
   }),
 });

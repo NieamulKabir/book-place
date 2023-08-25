@@ -145,7 +145,7 @@ const AllBooks = () => {
               onChange={(e) => dispatch(selectedGenre(e.target.value))}
               className="select border-2 border-white  md:max-w-[200px] bg-gray-900 text-gray-300"
             >
-              <option className="text-white" value="" selected>
+              <option className="text-white" defaultValue="" >
                 Pick a Genre
               </option>
               <option className="text-white" value="">
@@ -179,7 +179,7 @@ const AllBooks = () => {
               onChange={(e) => dispatch(selectedYear(e.target.value))}
               className="select border-2 border-white  md:max-w-[200px] bg-gray-900 text-gray-300"
             >
-              <option className="text-white" value="" selected>
+              <option className="text-white" defaultValue="" >
                 Select A Year
               </option>
               {yearSelect().map((year) => (

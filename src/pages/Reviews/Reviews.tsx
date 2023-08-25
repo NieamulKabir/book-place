@@ -22,7 +22,6 @@ const Reviews = ({ reviews, id }: IProps) => {
   //   // other logic
   // };
 
-  console.log(getUser);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (rating <= 0) {
@@ -129,9 +128,9 @@ const Reviews = ({ reviews, id }: IProps) => {
 
       {reviews.length !== 0 && (
         <div className="text-white  border  py-3 px-4 rounded-2xl bg-gray-900">
-          {reviews?.map((review) => (
+          {reviews?.map((review,i) => (
             <div
-              key={review._id}
+              key={i}
               className="flex justify-between items-center border m-3 px-4 pt-4 rounded-lg bg-gray-600"
             >
               <div className="pb-4">
