@@ -172,16 +172,122 @@ const Navbar = () => {
             } p-6 bg-gray-500 absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
           >
             <ul className="list-none flex justify-end items-start flex-col first-letter:gap-4">
-              <li
-                className={`${
-                  active === "/home" ? "text-green-300" : "text-white"
-                } hover:text-white text-[18px] font-medium cursor-pointer`}
-                onClick={() => setActive("/home")}
-              >
-                <NavLink to="/home">
-                  <button className="">Home</button>
-                </NavLink>
-              </li>
+            <li
+            className={`${
+              active === "/home" ? "text-green-300" : "text-white"
+            } hover:text-white text-[18px] font-medium cursor-pointer`}
+            onClick={() => setActive("/home")}
+          >
+            <NavLink to="/home">
+              <button className="">Home</button>
+            </NavLink>
+          </li>
+          <li
+            className={`${
+              active === "/allBooks" ? "text-green-300" : "text-white"
+            } hover:text-white text-[18px] font-medium cursor-pointer`}
+            onClick={() => setActive("/allBooks")}
+          >
+            <NavLink to="/allBooks">
+              <button className="">All-Books</button>
+            </NavLink>
+          </li>
+          <li
+            className={`${
+              active === "/addBook" ? "text-green-300" : "text-white"
+            } hover:text-white text-[18px] font-medium cursor-pointer`}
+            onClick={() => setActive("/addBook")}
+          >
+            <NavLink to="/addBook">
+              <button className="">
+                
+              <i className="fa-solid fa-plus"></i> Add-Book
+                </button>
+            </NavLink>
+          </li>
+
+          <li
+            className={`${
+              active === "/wishlist" ? "text-green-300" : "text-white"
+            } hover:text-white text-[18px] font-medium cursor-pointer`}
+            onClick={() => setActive("/wishlist")}
+          >
+            <NavLink to="/wishlist">
+              <button className="">
+                
+              <i className="fa-solid fa-heart-circle-check"></i> 
+                </button>
+            </NavLink>
+          </li>
+          <li
+            className={`${
+              active === "/reading" ? "text-green-300" : "text-white"
+            } hover:text-white text-[18px] font-medium cursor-pointer`}
+            onClick={() => setActive("/reading")}
+          >
+            <NavLink to="/reading">
+              <button className="">
+                
+              <i className="fa-solid fa-book-open"></i> 
+                </button>
+            </NavLink>
+          </li>
+          <li
+            className={`${
+              active === "/completeReading" ? "text-green-300" : "text-white"
+            } hover:text-white text-[18px] font-medium cursor-pointer`}
+            onClick={() => setActive("/completeReading")}
+          >
+            <NavLink to="/completeReading">
+              <button className="">
+                
+              <i className="fa-solid fa-circle-check"></i>
+                </button>
+            </NavLink>
+          </li>
+
+          {/* login  */}
+
+          {user.email ? (
+            <button
+              onClick={async () => {
+                await handleSignOut();
+              }}
+            >
+              <div className="mt-3">
+                <Link
+                  to="/login"
+                  className="bg-green-500 w-36 px-4 py-[12px] font-semibold text-white rounded-xl"
+                >
+                  <span className="text-lg">Sign-Out</span>
+                </Link>
+              </div>
+            </button>
+          ) : (
+            <li
+              className={`${
+                active === "/login" ? "text-green-300" : "text-white"
+              } hover:text-white text-[18px] font-medium cursor-pointer`}
+              onClick={() => setActive("/login")}
+            >
+              <NavLink to="/login">
+                <button className="">Login</button>
+              </NavLink>
+            </li>
+          )}
+
+          {!user.email && (
+            <li
+              className={`${
+                active === "/signUp" ? "text-green-300" : "text-white"
+              } hover:text-white text-[18px] font-medium cursor-pointer`}
+              onClick={() => setActive("/signUp")}
+            >
+              <NavLink to="/signUp">
+                <button className="">SignUp</button>
+              </NavLink>
+            </li>
+          )}
             </ul>
           </div>
         </div>
