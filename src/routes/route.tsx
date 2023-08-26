@@ -9,6 +9,8 @@ import BookDetail from "../pages/Books/BookDetails/BookDetail";
 import EditBook from "../pages/Books/EditBook/EditBook";
 import PrivateRoute from "./PrivateRoute";
 import WishList from "../pages/List/WishList";
+import ReadingList from "../pages/List/ReadingList";
+import CompleteList from "../pages/List/CompleteList";
 
 const routes = createBrowserRouter([
   {
@@ -63,6 +65,23 @@ const routes = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/reading",
+        element: (
+          <PrivateRoute>
+            <ReadingList />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/completeReading",
+        element: (
+          <PrivateRoute>
+            <CompleteList />
+          </PrivateRoute>
+        ),
+      },
+     
       {
         path: "/login",
         element: <Login />,
