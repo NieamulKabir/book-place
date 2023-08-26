@@ -75,6 +75,46 @@ const Navbar = () => {
             </NavLink>
           </li>
 
+          <li
+            className={`${
+              active === "/wishlist" ? "text-green-300" : "text-white"
+            } hover:text-white text-[18px] font-medium cursor-pointer`}
+            onClick={() => setActive("/wishlist")}
+          >
+            <NavLink to="/wishlist">
+              <button className="">
+                
+              <i className="fa-solid fa-heart-circle-check"></i> 
+                </button>
+            </NavLink>
+          </li>
+          <li
+            className={`${
+              active === "/reading" ? "text-green-300" : "text-white"
+            } hover:text-white text-[18px] font-medium cursor-pointer`}
+            onClick={() => setActive("/reading")}
+          >
+            <NavLink to="/reading">
+              <button className="">
+                
+              <i className="fa-solid fa-book-open"></i> 
+                </button>
+            </NavLink>
+          </li>
+          <li
+            className={`${
+              active === "/completeReading" ? "text-green-300" : "text-white"
+            } hover:text-white text-[18px] font-medium cursor-pointer`}
+            onClick={() => setActive("/completeReading")}
+          >
+            <NavLink to="/completeReading">
+              <button className="">
+                
+              <i className="fa-solid fa-circle-check"></i>
+                </button>
+            </NavLink>
+          </li>
+
           {/* login  */}
 
           {user.email ? (

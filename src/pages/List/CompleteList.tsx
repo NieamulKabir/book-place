@@ -8,7 +8,7 @@ const CompleteList = () => {
     const data = currentUserData?.data?.completedBooks || undefined;
     return <div>
     <div className=" mx-auto md:px-[100px] my-20 pt-10 text-green-500">
-      <h1 className="text-center text-3xl font-bold pb-2">My ReadingList</h1>
+      <h1 className="text-center text-3xl font-bold pb-2">My Complete Reading List</h1>
       <div>
         <div className="hidden w-11/12 mx-auto  md:flex justify-center items-center border p-2 mb-1  mt-10 rounded-md">
           <h5 className="font-bold w-2/12">Title</h5>
